@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import br.edu.iftm.gui.componentes.TelaPainel;
+
 public class PrincipalPainel extends TelaPainel{
 
     

@@ -1,4 +1,4 @@
-package br.edu.iftm.gui;
+package br.edu.iftm.gui.componentes;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -9,8 +9,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import br.edu.iftm.gui.componentes.Imagem;
 
 public class TelaPainel extends JPanel implements ActionListener{
     private JPanel telas;
