@@ -1,6 +1,6 @@
 package br.edu.iftm.tests;
 
-import javax.swing.JFrame;
+//import javax.swing.JFrame;
 
 import br.edu.iftm.gui.Janela;
 
