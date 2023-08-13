@@ -1,5 +1,8 @@
 package br.edu.iftm.gui;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,28 +11,35 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import br.edu.iftm.gui.componentes.Imagem;
 import br.edu.iftm.gui.componentes.TelaPainel;
 import br.edu.iftm.modelo.Jogo;
 
 public class BibliotecaPainel extends TelaPainel{
     
     private ArrayList<Jogo> jogos;
+    private JPanel grid;
+
     public BibliotecaPainel(JPanel telas, JFrame janela){
 
       super(telas, janela);
       this.jogos = new ArrayList<Jogo>();
 
+      grid = new JPanel(new FlowLayout(FlowLayout.LEFT, 22, 22));
+      grid.setBackground(Color.decode("#202028"));
+      
       carregarJogos();
-    
-      //JButton botao = new JButton("Voltar");
-      //botao.addActionListener(this);
-      //botao.setBounds(0, 0, 100, 30);
+      exibirJogos();
+      
+      JScrollPane scrollPanel = new JScrollPane(grid);
+      scrollPanel.setBounds(50, 50, 1360, 768);
 
-      //this.add(botao);
+      this.add(scrollPanel);
     }
 
     private void carregarJogos(){
@@ -44,6 +54,31 @@ public class BibliotecaPainel extends TelaPainel{
         System.out.println(jogo.getIcone());
       }
     };
+
+    private void exibirJogos(){
+      int posicaoX = 50;
+      int posicaoY = 50;
+      final int POSICAO_MAX_X = 1230;
+
+      int altura = (jogos.size() / 7) * 222 + 20;
+      grid.setPreferredSize(new Dimension(500, altura));
+
+      for (Jogo jogo : jogos) {
+        String icone = jogo.getIcone();
+        Imagem imagem = new Imagem(icone);
+        imagem.setBounds(posicaoX, posicaoY, 131,200);
+
+        posicaoX += 20 + 131;
+        if(posicaoX > POSICAO_MAX_X){
+          posicaoX = 50;
+          posicaoY += 20 + 200;
+        }
+        
+        System.out.println(icone);
+
+        grid.add(imagem);       
+      }
+    }
 
     private String lerJsonJogos(){
       File arquivoJson = new File("jogos.json");
