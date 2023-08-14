@@ -28,22 +28,72 @@ public class BibliotecaPainel extends TelaPainel{
     
     private ArrayList<Jogo> jogos;
     private JPanel grid;
+    private Imagem imagemFundo;
 
     public BibliotecaPainel(JPanel telas, JFrame janela){
 
       super(telas, janela);
       this.jogos = new ArrayList<Jogo>();
 
-      grid = new JPanel(new FlowLayout(FlowLayout.LEFT, 22, 22));
+      grid = new JPanel(new FlowLayout(FlowLayout.LEFT, 11, 11));
       grid.setBackground(Color.decode("#202028"));
       
       carregarJogos();
       exibirJogos();
       
       JScrollPane scrollPanel = new JScrollPane(grid);
-      scrollPanel.setBounds(50, 50, 1360, 768);
+      scrollPanel.setBounds(50, 270, 1360, 230);
 
+      trocarImagemFundo("lol_big.jpg");
+      
       this.add(scrollPanel);
+      this.add(imagemFundo);
+    }
+
+    
+    private void exibirJogos(){
+      int posicaoX = 50;
+      int posicaoY = 50;
+      final int POSICAO_MAX_X = 1230;
+      
+      //int altura = (jogos.size() / 7) * 222 + 20;
+      //grid.setPreferredSize(new Dimension(500, altura));
+
+      for (Jogo jogo : jogos) {
+        String icone = jogo.getIcone();
+        Imagem imagem = new Imagem(icone);
+        imagem.setBounds(posicaoX, posicaoY, 131,200);
+
+        posicaoX += 20 + 131;
+        if(posicaoX > POSICAO_MAX_X){
+          posicaoX = 50;
+          posicaoY += 20 + 200;
+        }
+        
+        System.out.println(icone);
+        
+        imagem.addMouseListener(new MouseAdapter() {
+          public void mouseClicked(MouseEvent e){
+            String caminho = jogo.getCaminho();
+            String fundo = jogo.getFundo();
+            trocarImagemFundo(fundo);
+            //executarJogo(caminho);
+          }
+        });
+
+        grid.add(imagem);       
+      }
+    }
+
+    private void trocarImagemFundo(String imagem){
+      if(imagemFundo != null){
+        remove(imagemFundo);
+      }
+      imagemFundo = new Imagem(imagem);
+      imagemFundo.setBounds(0, 0, 1920, 1080);
+      add(imagemFundo);
+      repaint();
+      revalidate();
     }
 
     private void carregarJogos(){
@@ -58,38 +108,6 @@ public class BibliotecaPainel extends TelaPainel{
         System.out.println(jogo.getIcone());
       }
     };
-
-    private void exibirJogos(){
-      int posicaoX = 50;
-      int posicaoY = 50;
-      final int POSICAO_MAX_X = 1230;
-
-      int altura = (jogos.size() / 7) * 222 + 20;
-      grid.setPreferredSize(new Dimension(500, altura));
-
-      for (Jogo jogo : jogos) {
-        String icone = jogo.getIcone();
-        Imagem imagem = new Imagem(icone);
-        imagem.setBounds(posicaoX, posicaoY, 131,200);
-
-        posicaoX += 20 + 131;
-        if(posicaoX > POSICAO_MAX_X){
-          posicaoX = 50;
-          posicaoY += 20 + 200;
-        }
-        
-        System.out.println(icone);
-
-        imagem.addMouseListener(new MouseAdapter() {
-          public void mouseClicked(MouseEvent e){
-            String caminho = jogo.getCaminho();
-            //executarJogo(caminho);
-          }
-        });
-
-        grid.add(imagem);       
-      }
-    }
 
     private void executarJogo(String caminho) throws IOException{
       File arquivo = new File(caminho);
