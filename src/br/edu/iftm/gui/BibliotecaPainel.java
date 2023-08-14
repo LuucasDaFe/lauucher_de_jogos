@@ -4,11 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.IIOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -76,7 +80,24 @@ public class BibliotecaPainel extends TelaPainel{
         
         System.out.println(icone);
 
+        imagem.addMouseListener(new MouseAdapter() {
+          public void mouseClicked(MouseEvent e){
+            String caminho = jogo.getCaminho();
+            //executarJogo(caminho);
+          }
+        });
+
         grid.add(imagem);       
+      }
+    }
+
+    private void executarJogo(String caminho) throws IOException{
+      File arquivo = new File(caminho);
+      String pasta = arquivo.getAbsoluteFile().getParent();
+      try{
+        Runtime.getRuntime().exec(caminho, null, new File(pasta));
+      } catch (IIOException e){
+        e.printStackTrace();
       }
     }
 
